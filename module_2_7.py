@@ -1,6 +1,3 @@
-a=0
-b=0
-c=0
 def print_params(a = 1, b = 'строка', c = True):
     print(a,b,c)
 print_params()
