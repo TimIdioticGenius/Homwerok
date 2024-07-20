@@ -1,50 +1,39 @@
-class House:
-    houses_history = []
-    def __len__(self):
-        return self.floors
-    def __str__(self):
-        return f"Название: {self.name}, кол-во этажей:{self.floors}"
-    def __init__(self, name, floors):
+from pprint import pprint
+class Product:
+    def __init__(self, name, weight, category):
         self.name = name
-        self.floors = floors
-    def go_to(self, new_floor):
-        a = 1
-        if new_floor > self.floors or new_floor < 1:
-            print("Такого этажа не существует")
-        else:
-            while a <= new_floor:
-                print(a)
-                a = a+1
-    def __eq__(self, other):
-        return self.floors == other
-    def __lt__(self, other):
-        return self.floors < other.floors
-    def __le__(self, other):
-        return self.floors <= other.floors
-    def __gt__(self, other):
-        return self.floors > other.floors
-    def __ge__(self, other):
-        return self.floors >= other.floors
-    def __ne__(self, other):
-        return self.floors != other.floors
-    def __add__(self, other):
-        return self.floors
+        self.weight = weight
+        self.category = category
+    def __str__(self):
+        productus = f"{self.name}, {self.weight}, {self.category}"
+        return productus
 
-    def __new__(cls, *args, **kwargs):
-        cls.houses_history = cls.houses_history + list(args[0:1])
-        return super().__new__(cls)
-    def __del__(self):
-        print(self.name,' снесён, но он останется в истории')
+class Shop:
+    def get_products(self):
+        self.__file_name = 'products.txt'
+        file = open(self.__file_name,'r')
+        string = str(file.read())
+        file.close()
+        return string
+
+    def add(self, *products):
+        existing_products = self.get_products()
+
+        with open(self.__file_name, 'a', encoding='utf-8') as file:
+            for product in products:
+                if product.name in existing_products:
+                    print(f'Продукт {product.name} уже есть в магазине')
+                else:
+                    file.write(str(product) + '\n')
 
 
-h1 = House('ЖК Эльбрус', 10)
-print(House.houses_history)
-h2 = House('ЖК Акация', 20)
-print(House.houses_history)
-h3 = House('ЖК Матрёшки', 20)
-print(House.houses_history)
+s1 = Shop()
+p1 = Product('Potato', 50.5, 'Vegetables')
+p2 = Product('Spaghetti', 3.4, 'Groceries')
+p3 = Product('Potato', 5.5, 'Vegetables')
 
-del h2
-del h3
+print(p2) # __str__
 
-print(House.houses_history)
+s1.add(p1, p2, p3)
+
+print(s1.get_products())
